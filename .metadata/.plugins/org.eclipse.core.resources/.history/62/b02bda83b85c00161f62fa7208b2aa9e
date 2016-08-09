@@ -1,0 +1,30 @@
+package ch01.ts;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
+public class TimeClient {
+
+	public static void main(String[] args) throws Exception {
+		URL url = new URL("http://localhost:9876/ts?wsdl");
+		
+		//Nome qualificado do serviço
+		//Primeiro argumento é o URI do serviço
+		//Segundo é o nome do serviço publicado no WSDL
+		
+		QName qname = new QName("http://ts.ch01/", "TimeServerImplService");
+
+		//Cria, de fato, uma fábrica para o serviço
+		Service service = Service.create(url, qname);
+		
+		//Extrai a interface endpoint, o serviço "port".
+		TimeServer eif = service.getPort(TimeServer.class);
+		
+		System.out.println(eif.getTimeAsString());
+		System.out.println(eif.getTimeAsElapsed());
+	}
+
+}

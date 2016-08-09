@@ -1,0 +1,88 @@
+package ch01.soap;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeader;
+import javax.xml.soap.SOAPMessage;
+
+public class DemoSoap {
+	private static final String LocalName = "TimeRequest";
+	private static final String Namespace = "http://ch01/mysoap/";
+	private static final String NamespacePrefix = "ms";
+	
+	private ByteArrayOutputStream out;
+	private ByteArrayInputStream in;
+	
+	public static void main(String[] args) {
+		new DemoSoap().request();
+	}
+	
+	private void request() {
+		try {
+			//Criar uma mensagem SOAP para enviar para um stream de saída
+			SOAPMessage msg = create_soap_message();
+			//Injetar a informação apropriada na mensagem 
+			//Neste caso, apenas o cabeçalho da mensagem (opcional) é usado e o corpo está vazio.
+			SOAPEnvelope env = msg.getSOAPPart().getEnvelope();
+			SOAPHeader hdr = env.getHeader();
+			
+			//Adicionar um elemento ao cabeçalhho SOAP.
+			Name lookup_name = create_qname(msg);
+			hdr.addHeaderElement(lookup_name).addTextNode("time_request");
+			
+			//Simular o envio da mensagem SOAP ao sistema remoto
+			// escrevendo-o em um ByteArrayOutStream().
+			out = new ByteArrayOutputStream();
+			msg.writeTo(out);
+			
+			trace("The sent SOAP message:", msg);
+			
+			SOAPMessage response = process_request();
+			extract_contents_and_print(response);
+		} catch (SOAPException e){
+			System.err.println(e);
+		} catch (IOException e) {
+			System.err.println(e);
+		}		
+	}
+	
+	private SOAPMessage process_request() {
+		process_incoming_soap();
+		coordinate_streams();
+		return create_soap_message(in);
+	}
+	
+	private void process_incoming_soap() {
+		
+	}
+	
+	private void extract_contents_and_print(SOAPMessage msg) {
+		
+	}
+	
+	private SOAPMessage create_soap_message(){
+		
+	}
+	
+	private SOAPMessage create_soap_message(InputStream in){
+		
+	}
+	
+	private Name create_qname(SOAPMessage msg) {
+		
+	}
+	
+	private void trace(String s, SOAPMessage m){
+		
+	}
+	
+	private void coordinate_streams() {
+		
+	}
+
+}
